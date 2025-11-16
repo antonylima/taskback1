@@ -1,74 +1,94 @@
-# Task Manager
+# Task Manager - Full Stack Application
 
-A simple task management API built with Express.js and Turso database.
+A complete task management solution with Express.js backend and React Native frontend.
 
-## Setup
+## Project Structure
 
-1. Install dependencies:
+```
+task-manager/
+├── backend/                 # Express.js API server
+│   ├── package.json
+│   ├── .env                # Environment variables
+│   ├── server.js           # Express server entrypoint
+│   ├── db.js              # Turso database client
+│   ├── routes/            # API routes
+│   ├── migrations/        # Database migrations
+│   ├── scripts/           # Utility scripts
+│   └── backups/           # JSON backups directory
+└── frontend/               # React Native mobile app
+    ├── package.json
+    ├── App.js             # React Native entry point
+    ├── src/
+    │   ├── components/    # UI components
+    │   ├── screens/       # App screens
+    │   ├── services/      # API services
+    │   ├── types/         # TypeScript definitions
+    │   └── utils/         # Utilities and config
+    └── assets/            # App assets (icons, images)
+```
+
+## Quick Start
+
+### 1. Backend Setup
+
 ```bash
+# Install backend dependencies
 npm install
-```
 
-2. Configure environment variables in `.env`:
-```
-TURSO_DATABASE_URL=libsql://your-database-name.your-org.turso.io
-TURSO_AUTH_TOKEN=your_auth_token_here
-PORT=3000
-```
+# Configure environment variables
+cp .env.example .env
+# Edit .env with your Turso credentials
 
-3. Test your database connection:
-```bash
+# Test database connection
 npm run test-connection
-```
 
-4. Run the migration to create the tasks table:
-```bash
+# Run database migrations
 npm run migrate
-```
 
-5. Start the server:
-```bash
+# Start the backend server
 npm start
-# or for development with auto-reload:
+# or for development:
 npm run dev
 ```
 
-## Troubleshooting
+### 2. Frontend Setup
 
-### Getting Database Credentials
-
-If you need to get or refresh your Turso credentials:
-
-1. Install Turso CLI:
 ```bash
-curl -sSfL https://get.tur.so/install.sh | bash
+# Navigate to frontend directory
+cd frontend
+
+# Install frontend dependencies
+npm install
+
+# Start the React Native development server
+npm start
+
+# Run on specific platforms
+npm run android    # Android
+npm run ios        # iOS (macOS required)
+npm run web        # Web browser
 ```
 
-2. Login to Turso:
-```bash
-turso auth login
-```
+## Features
 
-3. List your databases:
-```bash
-turso db list
-```
+### Backend API
+- ✅ RESTful API with Express.js
+- ✅ Turso database integration
+- ✅ Complete CRUD operations for tasks
+- ✅ Database migrations
+- ✅ Environment configuration
+- ✅ Error handling and validation
+- ✅ Connection testing utilities
 
-4. Get database URL:
-```bash
-turso db show your-database-name --url
-```
-
-5. Create or get auth token:
-```bash
-turso db tokens create your-database-name
-```
-
-### Common Issues
-
-- **401 Unauthorized**: Your auth token may be expired. Generate a new token.
-- **URL_INVALID**: Check your database URL format. It should start with `libsql://`
-- **Connection timeout**: Verify your database exists and is accessible.
+### Frontend Mobile App
+- 📱 Cross-platform (iOS, Android, Web)
+- ✨ Modern, intuitive UI
+- 🔄 Real-time data synchronization
+- 📋 Full task management features
+- 🎯 Status tracking (Pending, In Progress, Completed)
+- 🔍 Detailed task views
+- 📱 Responsive design
+- ♿ Accessibility support
 
 ## API Endpoints
 
@@ -78,26 +98,120 @@ turso db tokens create your-database-name
 - `PUT /api/tasks/:id` - Update task
 - `DELETE /api/tasks/:id` - Delete task
 
-## Task Schema
-
-```json
-{
-  "id": 1,
-  "title": "Task title",
-  "description": "Task description",
-  "status": "pending", // pending, in_progress, completed
-  "created_at": "2023-01-01T00:00:00.000Z",
-  "updated_at": "2023-01-01T00:00:00.000Z"
-}
-```
-
 ## Available Scripts
 
-- `npm start` - Start the server in production mode
-- `npm run dev` - Start the server in development mode with auto-reload
+### Backend
+- `npm start` - Start production server
+- `npm run dev` - Start development server with auto-reload
 - `npm run migrate` - Run database migrations
 - `npm run test-connection` - Test database connection
 
-## Backup Directory
+### Frontend
+- `npm start` - Start Expo development server
+- `npm run android` - Run on Android
+- `npm run ios` - Run on iOS
+- `npm run web` - Run in web browser
 
-The `backups/` directory can be used for storing JSON exports/imports of task data (optional functionality).
+## Setup Instructions
+
+### Prerequisites
+- Node.js 16.x or later
+- Turso database account and credentials
+- Expo CLI (for React Native development)
+
+### Backend Configuration
+
+1. **Get Turso credentials:**
+   ```bash
+   # Install Turso CLI
+   curl -sSfL https://get.tur.so/install.sh | bash
+   
+   # Login to Turso
+   turso auth login
+   
+   # Create database (if needed)
+   turso db create your-database-name
+   
+   # Get database URL
+   turso db show your-database-name --url
+   
+   # Create auth token
+   turso db tokens create your-database-name
+   ```
+
+2. **Configure environment variables:**
+   ```env
+   TURSO_DATABASE_URL=libsql://your-database.turso.io
+   TURSO_AUTH_TOKEN=your_auth_token_here
+   PORT=3000
+   ```
+
+### Frontend Configuration
+
+1. **Update API configuration:**
+   Edit `frontend/src/utils/config.ts`:
+   ```typescript
+   export const Config = {
+     API_BASE_URL: 'http://localhost:3000/api', // Your backend URL
+   };
+   ```
+
+2. **For mobile device testing:**
+   Replace `localhost` with your computer's IP address.
+
+## Development Workflow
+
+1. **Start the backend:**
+   ```bash
+   npm run dev
+   ```
+
+2. **Start the frontend:**
+   ```bash
+   cd frontend
+   npm start
+   ```
+
+3. **Test on devices:**
+   - Install Expo Go app
+   - Scan QR code displayed in terminal
+   - App loads on your device
+
+## Troubleshooting
+
+### Backend Issues
+- **401 Unauthorized**: Check your Turso auth token
+- **Connection failed**: Verify database URL and network access
+- **Migration errors**: Ensure database permissions are correct
+
+### Frontend Issues
+- **Cannot connect to API**: Check API_BASE_URL configuration
+- **Metro bundler issues**: Try `npm start -- --clear`
+- **Device connection**: Use IP address instead of localhost
+
+### Network Configuration
+For mobile development, ensure your computer and mobile device are on the same network, and update the API URL to use your computer's IP address.
+
+## Production Deployment
+
+### Backend
+- Deploy to services like Railway, Render, or Vercel
+- Configure environment variables in deployment platform
+- Ensure Turso database is accessible
+
+### Frontend
+- Build web version: `npm run build:web`
+- Build mobile apps using Expo Application Services (EAS)
+- Configure app stores distribution
+
+## Contributing
+
+1. Fork the repository
+2. Create feature branch: `git checkout -b feature/amazing-feature`
+3. Commit changes: `git commit -m 'Add amazing feature'`
+4. Push to branch: `git push origin feature/amazing-feature`
+5. Open pull request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
