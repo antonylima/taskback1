@@ -1,0 +1,11 @@
+task-manager/
+├─ package.json
+├─ .env
+├─ server.js            # entrypoint Express
+├─ db.js                # inicializa o client Turso (@libsql/client)
+├─ migrations/
+│  └─ 001_create_tasks.sql
+├─ routes/
+│  └─ tasks.js
+├─ backups/             # pasta local usada para export/import JSON (opcional)
+└─ README.md
